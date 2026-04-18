@@ -1,5 +1,7 @@
 "use client"
 
+export const dynamic = 'force-dynamic';
+
 import Navbar from '@/components/Navbar'
 import { Unbounded } from 'next/font/google'
 import hqImage from "@/assets/hq.svg"
@@ -20,8 +22,8 @@ import fame from "@/content/fame.json"
 import ProjectCard from '@/components/ProjectCard'
 import blogs from "@/content/blogs.json"
 import BlogListItem from '@/components/BlogListItem'
-import HorizontalTranslate from '../components/HorizontalTranslate'
-import styled from 'styled-components'
+import dynamicImport from 'next/dynamic'
+const HorizontalTranslate = dynamicImport(() => import('../components/HorizontalTranslate'), { ssr: false })
 import React from 'react'
 import Level from '@/components/Level'
 import StartAnim from '@/components/StartAnim'
@@ -40,13 +42,8 @@ import { useRouter } from 'next/navigation'
 import { scroller } from 'react-scroll'
 import Footer from '@/components/Footer'
 
-const CardsContainer = styled.div`
-    position: relative;
-    padding: 0 0 0 100px;
-    display: flex;
-    flex-flow: row nowrap;
-    overflow-y:hidden;
-  `;
+// CardsContainer replaced with Tailwind classes
+const cardsContainerClass = "relative pl-[100px] flex flex-row-nowrap overflow-y-hidden";
 
 export default function Home() {
   const [page, setPage] = useState("home");
@@ -59,7 +56,7 @@ export default function Home() {
   const numTeamInView = useNumInView({ ref: teamRef, arr: team_members })
   // const { isScrollingDown } = useScrollDirection(mainRef?.current || undefined)
   const screenWidth = useScreenWidth()
-  const { scrollYProgress } = useScroll({ container: mainRef })
+  const { scrollYProgress } = useScroll({ container: mainRef as React.RefObject<HTMLElement> })
   const [startAnimationComplete, setStartAnimationComplete] = useState(false);
   const router = useRouter()
   const setIntersecting = useCallback((page: string) => {

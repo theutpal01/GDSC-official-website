@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 import { useScreenWidth } from "./useScreenWidth";
 
 type Props = {
-  ref: RefObject<HTMLDivElement>;
+  ref: RefObject<HTMLDivElement | null>;
   arr: any[];
 };
 
